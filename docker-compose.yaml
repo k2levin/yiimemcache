@@ -1,0 +1,22 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: app
+    volumes:
+      - "$PWD/code/index.html:/var/www/html/index.html"
+      - "$PWD/code/:/var/www/app/"
+      - "$PWD/files/nginx_conf/:/etc/nginx/conf.d/"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    networks:
+      - memcache-network
+  memcache:
+    image: memcached:1.6
+    container_name: memcache
+    networks:
+      - memcache-network
+networks:
+  memcache-network:
